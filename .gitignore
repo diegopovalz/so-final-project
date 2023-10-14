@@ -1,0 +1,4 @@
+.vscode
+profiler
+target
+*.o
