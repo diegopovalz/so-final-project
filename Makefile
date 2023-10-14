@@ -1,13 +1,16 @@
-all: clean profiler target
+CC = gcc
+CFLAGS = -Wall -O2
+TARGET = profiler
+SRC = profiler.c
+OBJ = $(SRC:.c=.o)
 
-profiler: profiler.c
-	gcc profiler.c -o profiler
+all: clean $(TARGET)
 
-instrumentation.o: instrumentation.c
-	gcc -c -finstrument-functions instrumentation.c
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
 
-target: target.c instrumentation.o
-	gcc -finstrument-functions target.c instrumentation.o -o target
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f profiler target instrumentation.o
+	rm -f $(OBJ) $(TARGET)
