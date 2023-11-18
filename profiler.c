@@ -33,7 +33,7 @@ long get_memory_usage(pid_t pid) {
 
 // === Manual CPU Time Profiling ===
 
-typedef struct {
+/* typedef struct {
     clock_t start;
 } Timer;
 
@@ -43,26 +43,26 @@ void timer_start(Timer* timer) {
 
 double timer_elapsed(Timer* timer) {
     return (double)(clock() - timer->start) / CLOCKS_PER_SEC;
-}
+} */
 
 // === Test Functions ===
 
 void foo() {
-    Timer t;
-    timer_start(&t);
+    // Timer t;
+    // timer_start(&t);
     
     sleep(1);
     
-    printf("Function foo took %f seconds\n", timer_elapsed(&t));
+    // printf("Function foo took %f seconds\n", timer_elapsed(&t));
 }
 
 void bar() {
-    Timer t;
-    timer_start(&t);
+    // Timer t;
+    // timer_start(&t);
     
     sleep(2);
     
-    printf("Function bar took %f seconds\n", timer_elapsed(&t));
+    // printf("Function bar took %f seconds\n", timer_elapsed(&t));
 }
 
 int main() {
