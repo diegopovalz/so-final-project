@@ -6,8 +6,6 @@
 #include <sys/wait.h>
 #include <time.h>
 
-// === Memory Usage Profiling ===
-
 long get_memory_usage(pid_t pid) {
     char proc_path[256];
     snprintf(proc_path, sizeof(proc_path), "/proc/%d/status", pid);
@@ -28,56 +26,27 @@ long get_memory_usage(pid_t pid) {
     }
 
     fclose(file);
-    return mem_usage; // Returns memory usage in kB
+    return mem_usage;
 }
-
-// === Manual CPU Time Profiling ===
-
-/* typedef struct {
-    clock_t start;
-} Timer;
-
-void timer_start(Timer* timer) {
-    timer->start = clock();
-}
-
-double timer_elapsed(Timer* timer) {
-    return (double)(clock() - timer->start) / CLOCKS_PER_SEC;
-} */
-
-// === Test Functions ===
 
 void foo() {
-    // Timer t;
-    // timer_start(&t);
-    
     sleep(1);
-    
-    // printf("Function foo took %f seconds\n", timer_elapsed(&t));
 }
 
 void bar() {
-    // Timer t;
-    // timer_start(&t);
-    
     sleep(2);
-    
-    // printf("Function bar took %f seconds\n", timer_elapsed(&t));
 }
 
 int main() {
     pid_t pid = fork();
     if (pid == 0) {
-        // Child process
         foo();
         bar();
         exit(0);
     } else if (pid > 0) {
-        // Parent process
         while (1) {
             int status;
             if (waitpid(pid, &status, WNOHANG) != 0) {
-                // Child process has terminated
                 break;
             }
 
@@ -86,7 +55,7 @@ int main() {
                 printf("Memory usage: %ld kB\n", mem_usage);
             }
 
-            sleep(1); // Check every second
+            sleep(1);
         }
     } else {
         perror("fork failed");
